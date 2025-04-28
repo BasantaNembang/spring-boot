@@ -1,0 +1,27 @@
+server:
+  port:8080
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    lazy-initialization: false
+
+  application:
+    name: ProductService
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/productdb
+    username: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  config:
+    import: configserver:http://${CONFIG_SERVER_URI:localhost}:9296/
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-biqonisiomf7typl.us.auth0.com/

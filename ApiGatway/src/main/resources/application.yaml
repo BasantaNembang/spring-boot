@@ -1,0 +1,79 @@
+
+spring:
+  application:
+    name: ApiGateway
+
+  profiles:
+    active: dev
+    
+  config:
+    import: optional:configserver:http://${CONFIG_SERVER_URI:localhost}:9296/
+  cloud:
+
+    gateway:
+      default-filters:
+        - TokenRelay
+      routes:
+        - id: ProductService
+          uri: lb://ProductService
+          predicates:
+            - Path=/product/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ProductService
+                fallbackUri: forward:/productServiceFallback
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+        - id: PaymentService
+          uri: lb://PaymentService
+          predicates:
+            - Path=/payment/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PaymentService
+                fallbackUri: forward:/paymentServiceFallback
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+        - id: OrderService
+          uri: lb://OrderService
+          predicates:
+            - Path=/order/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: OrderService
+                fallbackUri: forward:/orderServiceFallback
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+  security:
+    oauth2:
+      client:
+        registration:
+          auth0:
+            scope: openid, profile, email, offline_access
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:3000/login/oauth2/code/auth0
+        provider:
+          auth0:
+            issuer-uri: https://dev-biqonisiomf7typl.us.auth0.com/
+            jwk-set-uri: https://dev-biqonisiomf7typl.us.auth0.com/.well-known/jwks.json
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-biqonisiomf7typl.us.auth0.com/
+
+auth0:
+  audience: https://dev-biqonisiomf7typl.us.auth0.com/api/v2/
+
+
+server:
+  port: 3000
+
+

@@ -1,0 +1,30 @@
+
+spring:
+  application:
+    name: OrderService
+  datasource:
+    url: jdbc:h2:mem:order
+    username: root
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-biqonisiomf7typl.us.auth0.com/
+
+  config:
+    import: configserver:http://localhost:9296/
+
+eureka:
+  client:
+    enabled: false
+
+
+
+
+
+
+

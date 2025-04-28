@@ -1,0 +1,10 @@
+{
+  "type": "record",
+  "name": "OrderPlacedEvent",
+  "namespace": "com.basanta.OrderService.event",
+  "fields": [
+    { "name": "orderNumber", "type": "string" },
+    { "name": "user", "type": "string" },
+    { "name": "subject", "type": "string" }
+  ]
+}

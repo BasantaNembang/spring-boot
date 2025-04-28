@@ -1,0 +1,37 @@
+# ---
+# version: "3"
+# services:
+#   serviceregistry:
+#     image: basantanembang10/serviceregistry:latest
+#     container_name: serviceregistry
+#     ports:
+#       - 8761:8761
+#   configserver:
+#     image: basantanembang10/configserver:latest
+#     container_name: configserver
+#     ports:
+#       - 9296:9296
+#     environment:
+#       - EUEREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
+#     depends_on:
+#       - serviceregistry
+#     healthcheck:
+#       test:
+#         - CMD
+#         - curl
+#         - -f
+#         - http://configserver:9296/actuator/health
+#       interval: 30s
+#       timeout: 10s
+#       retries: 5
+#   apigateway:
+#     image: basantanembang10/apigateway:latest
+#     container_name: apigateway
+#     ports:
+#       - 3000:3000
+#     environment:
+#       - EUEREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
+#       - CONFIG_SERVER_URI=configserver
+#     depends_on:
+#       configserver:
+#         condition: service_healthy
