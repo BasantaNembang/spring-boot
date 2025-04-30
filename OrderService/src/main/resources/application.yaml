@@ -41,9 +41,11 @@ spring:
       - orderDtoCache
   data:
     redis:
-      host: localhost
+      # host: localhost
+      # port: 6379 because we are using redis in k8s
+      host: redis
       port: 6379
-
+      
 resilience4j:
   circuitbreaker:
     instances:

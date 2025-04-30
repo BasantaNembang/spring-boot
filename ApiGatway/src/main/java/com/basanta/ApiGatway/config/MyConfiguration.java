@@ -1,13 +1,15 @@
 package com.basanta.ApiGatway.config;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import reactor.core.publisher.Mono;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+
 
 @Configuration
 public class MyConfiguration {
@@ -25,7 +27,9 @@ public class MyConfiguration {
 
     @Bean
     public KeyResolver userKeyResolver() {
-        return exchange -> Mono.just("userKey");
+        return exchange -> ReactiveSecurityContextHolder.getContext()
+        .map(ssc->ssc.getAuthentication()
+               .getCredentials().toString());
     }
 
 
