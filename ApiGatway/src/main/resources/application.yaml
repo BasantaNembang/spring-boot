@@ -61,6 +61,8 @@ spring:
             scope: openid, profile, email, offline_access
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:3000/login/oauth2/code/auth0
+           # client-id:
+           # client-secret:
         provider:
           auth0:
             issuer-uri: https://dev-biqonisiomf7typl.us.auth0.com/

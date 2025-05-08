@@ -1,6 +1,8 @@
 package com.basanta.ApiGatway.config;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.micrometer.observation.ObservationRegistry;
+import io.micrometer.observation.aop.ObservedAspect;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
@@ -26,6 +28,12 @@ public class MyConfiguration {
     @Bean
     public KeyResolver userKeyResolver() {
         return exchange -> Mono.just("userKey");
+    }
+
+
+    @Bean
+    public ObservedAspect observedAspect(ObservationRegistry observationRegistry){
+        return new ObservedAspect(observationRegistry);
     }
 
 

@@ -6,9 +6,6 @@ spring:
     allow-bean-definition-overriding: true
     lazy-initialization: false
 
-  application:
-    name: ProductService
-
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:3306/productdb
     username: root

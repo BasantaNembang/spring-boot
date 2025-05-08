@@ -7,7 +7,7 @@ COPY ${JAR_FILE} apigateway.jar
 
 ENTRYPOINT ["java", "-jar", "/apigateway.jar"]
 
-EXPOSE 3000
+#EXPOSE 3000
 
 
 
