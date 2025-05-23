@@ -18,7 +18,7 @@ spring:
   application:
     name: OrderService
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:3306/orderdb
+    url: "jdbc:mysql://${DB_HOST:localhost}:3306/orderdb"
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -33,7 +33,7 @@ spring:
           issuer-uri: https://dev-biqonisiomf7typl.us.auth0.com/
 
   config:
-    import: configserver:http://${CONFIG_SERVER_URI:localhost}:9296/
+    import: "configserver:${CONFIG_SERVER_URI:http://localhost:9296/}"
 
   cache:
     type: redis
