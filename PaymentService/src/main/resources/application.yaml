@@ -6,7 +6,7 @@ spring:
   application:
     name: PaymentService
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:3306/paymentdb
+    url: "jdbc:mysql://${DB_HOST:localhost}:3306/paymentdb"
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -15,7 +15,7 @@ spring:
       ddl-auto: update
 
   config:
-    import: configserver:http://${CONFIG_SERVER_URI:localhost}:9296/
+    import: "configserver:${CONFIG_SERVER_URI:http://localhost:9296/}"
 
   security:
     oauth2:

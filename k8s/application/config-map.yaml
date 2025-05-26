@@ -1,0 +1,43 @@
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eureka-cmap
+data:
+  eureka_server_address: "http://eureka-0.eureka:8761/eureka"
+ #eureka-0.eureka  ::podName-replicaNo-headlsessServiceName
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-cmap
+data:
+  config_server_uri: "http://config-server-svc"
+
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-cmap
+data:
+  hostname: "mysql-0.mysql"
+
+
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redirect-url-cmap
+data:
+  REDIRECT_URI: "http://api-gateway-local.com"
+
+
+  
+

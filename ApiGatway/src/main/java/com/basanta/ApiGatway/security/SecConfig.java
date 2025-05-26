@@ -40,7 +40,7 @@ public class SecConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeExchange(auth->auth
-                      //  .pathMatchers(HttpMethod.POST, "/**").permitAll()
+                         .pathMatchers("/actuator/health").permitAll() 
                          .anyExchange().authenticated()
                 )
                 .oauth2Login(oAuth2LoginSpec ->

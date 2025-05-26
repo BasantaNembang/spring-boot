@@ -4,9 +4,9 @@ global:
   evaluation_interval: 2s
 
 scrape_configs:
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['prometheus:9090']
+  # - job_name: 'prometheus'
+  #   static_configs:
+  #     - targets: ['prometheus:9090']
 
   - job_name: 'ApiGateway'
     metrics_path: '/actuator/prometheus'

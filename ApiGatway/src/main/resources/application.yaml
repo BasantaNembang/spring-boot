@@ -6,13 +6,11 @@ spring:
   redis:
     host: redis
     port: 6379
-   
-
-  profiles:
-    active: dev
+  # profiles:
+  #   active: dev
     
   config:
-    import: optional:configserver:http://${CONFIG_SERVER_URI:localhost}:9296/
+    import: "optional:configserver:${CONFIG_SERVER_URI:http://localhost:9296/}"
   cloud:
 
     gateway:
@@ -58,6 +56,7 @@ spring:
               args:
                 redis-rate-limiter.replenishRate: 10
                 redis-rate-limiter.burstCapacity: 20
+
   security:
     oauth2:
       client:
@@ -65,9 +64,10 @@ spring:
           auth0:
             scope: openid, profile, email, offline_access
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:3000/login/oauth2/code/auth0
-           # client-id:
-           # client-secret:
+            #redirect-uri: "{baseUrl}/login/oauth2/code/auth0"
+            redirect-uri: "${REDIRECT_URI:http://localhost:3000}/login/oauth2/code/auth0"
+            client-id: 2WSuELXOTRX9N2IaLh0SyPW3x1SRjFap
+            client-secret: qGaBjWRGHVQJAOWffvg8w-lsn5t4DLl3qdpK8gAWLttI2qnaiXXC11hdlLqEOkd0
         provider:
           auth0:
             issuer-uri: https://dev-biqonisiomf7typl.us.auth0.com/
@@ -79,8 +79,11 @@ spring:
 auth0:
   audience: https://dev-biqonisiomf7typl.us.auth0.com/api/v2/
 
-
 server:
   port: 3000
+  address: 0.0.0.0
+
+
+#   address: 0.0.0.0 #for k8s
 
 

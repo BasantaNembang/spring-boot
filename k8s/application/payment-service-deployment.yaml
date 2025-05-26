@@ -1,0 +1,66 @@
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service-app
+spec:
+  selector:
+    matchLabels:
+      app: payment-service-app
+  template:
+    metadata:
+      labels:
+        app: payment-service-app
+    spec:
+      containers:
+      - name: payment-service-app
+        image: basantanembang10/paymentservice:latest
+        
+        ports:
+        - containerPort: 8082
+
+        env:
+          - name: CONFIG_SERVER_URI
+            valueFrom:
+              configMapKeyRef:
+                name: config-cmap
+                key: config_server_uri
+                
+          - name: EUREKA_SERVER_ADDRESS  
+            valueFrom:
+              configMapKeyRef:
+                name: eureka-cmap
+                key: eureka_server_address
+
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: mysql-cmap
+                key: hostname                 
+              
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 200
+          periodSeconds: 5
+          failureThreshold: 3
+          successThreshold: 1                      
+  
+                
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service-svc
+spec:
+  selector:
+    app: payment-service-app
+  ports:
+  - port: 80
+    targetPort: 8082
+
+
