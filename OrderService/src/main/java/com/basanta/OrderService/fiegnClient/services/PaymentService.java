@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-@FeignClient(name = "PaymentService")
+@FeignClient(name = "payment", url = "${microservice.payment}")
 public interface PaymentService {
 
 
 
-    @PostMapping("/payment/order")
+    @PostMapping("/order")
     public ResponseEntity<String> doPayment(@RequestBody PaymentDto paymentDto);
 
-    @DeleteMapping("/payment/cancel/{id}")
+    @DeleteMapping("/cancel/{id}")
     public ResponseEntity<String> cancelPayment(@PathVariable("id") String id);
 
 

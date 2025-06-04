@@ -14,6 +14,7 @@ import com.basanta.OrderService.repo.OrderRepo;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,13 @@ public class OrderServiceImp implements OrderService{
     @Autowired
     private KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
-    public String username;
+    @Value("${microservice.product}")
+    public String productServiceUrl;
+
+    @Value("${microservice.payment}")
+    public String paymentServiceUrl;
+
+
 
     @Override
     @Transactional
@@ -125,12 +132,12 @@ public class OrderServiceImp implements OrderService{
 
        //get Product info from product service
        ProductDto productDto  =
-               restTemplate.getForObject("http://PRODUCTSERVICE/product/get/"+order.getProduct_id(), ProductDto.class);
+               restTemplate.getForObject(productServiceUrl+"/get/"+order.getProduct_id(), ProductDto.class);
 
        log.info("Product data  {}  ",productDto);
 
        //get Payment info as well
-       PaymentDto paymentDto =  restTemplate.getForObject("http://PAYMENTSERVICE/payment/order/"+order.getId(), PaymentDto.class);
+       PaymentDto paymentDto =  restTemplate.getForObject(paymentServiceUrl+"/order/"+order.getId(), PaymentDto.class);
 
 
         OrderDto dto = new OrderDto(order.getId(), order.getProduct_id(), order.getQuantity(),

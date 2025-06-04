@@ -1,7 +1,4 @@
 
-
----
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,7 +12,6 @@ spec:
     metadata:
       labels:
         app: api-gateway-app
-     
     spec:
       
       containers:
@@ -32,11 +28,7 @@ spec:
                 name: config-cmap
                 key: config_server_uri
              
-          - name: EUREKA_SERVER_ADDRESS  
-            valueFrom:
-              configMapKeyRef:
-                name: eureka-cmap
-                key: eureka_server_address
+        
           
           - name: LOKI_URL
             valueFrom:
@@ -50,41 +42,16 @@ spec:
                 name: common-config
                 key: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
           
-          - name: REDIRECT_URI
-            valueFrom:
-              configMapKeyRef:
-                name: redirect-url-cmap
-                key: REDIRECT_URI 
-
-        readinessProbe:
-          httpGet:
-            path: /actuator/health
-            port: 3000
-          initialDelaySeconds: 200
-          periodSeconds: 5
-          failureThreshold: 3
-          successThreshold: 1   
-
+          # - name: REDIRECT_URI
+          #   valueFrom:
+          #     configMapKeyRef:
+          #       name: redirect-url-cmap
+          #       key: REDIRECT_URI 
        
-# ---
-
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: api-gateway-svc
-# spec:
-#   type: NodePort     #LoadBalancer
-#   selector:
-#     app: api-gateway-app
-#   ports:
-#   - port: 80
-#     targetPort: 3000
-#     nodePort: 30001   #
-    
 
 
 
-#LET`S IMPLEMENT INGRESS-SERVICE`
+
 ---
 
 apiVersion: v1
@@ -92,6 +59,7 @@ kind: Service
 metadata:
   name: api-gateway-svc
 spec:
+  type: LoadBalancer
   selector:
     app: api-gateway-app
   ports:
@@ -99,28 +67,45 @@ spec:
     targetPort: 3000
 
 
----
 
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: api-gateway-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+
+#LET`S IMPLEMENT INGRESS-SERVICE`
+# ---
+
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: api-gateway-svc
+# spec:
+#   selector:
+#     app: api-gateway-app
+#   ports:
+#   - port: 80
+#     targetPort: 3000
+
+
+# ---
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: api-gateway-ingress
+
     
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: api-gateway-local.com
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: api-gateway-svc
-            port: 
-              number: 80
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#   - host: api-gateway-local.com
+#     http:
+#       paths:
+#       - pathType: Prefix
+#         path: "/"
+#         backend:
+#           service:
+#             name: api-gateway-svc
+#             port: 
+#               number: 80
 
 
 

@@ -1,14 +1,14 @@
----
 
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: eureka-cmap
-data:
-  eureka_server_address: "http://eureka-0.eureka:8761/eureka"
+
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: eureka-cmap
+# data:
+#   eureka_server_address: "http://eureka-0.eureka:8761/eureka"
  #eureka-0.eureka  ::podName-replicaNo-headlsessServiceName
 
----
+
 
 apiVersion: v1
 kind: ConfigMap
@@ -29,14 +29,14 @@ data:
 
 
 
----
+# ---
 
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: redirect-url-cmap
-data:
-  REDIRECT_URI: "http://api-gateway-local.com"
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: redirect-url-cmap
+# data:
+#   REDIRECT_URI: "http://api-gateway-local.com/"
 
 
   

@@ -8,17 +8,25 @@ spring:
     port: 6379
   # profiles:
   #   active: dev
-    
+
   config:
     import: "optional:configserver:${CONFIG_SERVER_URI:http://localhost:9296/}"
   cloud:
+    config:
+      uri: http://config-server-svc
+      fail-fast: true
+      retry:
+        initial-interval: 2000  # 2s
+        max-attempts: 10
+        max-interval: 10000
+        multiplier: 1.5
 
     gateway:
       default-filters:
         - TokenRelay
       routes:
         - id: ProductService
-          uri: lb://ProductService
+          uri: http://product-service-svc
           predicates:
             - Path=/product/**
           filters:
@@ -31,7 +39,7 @@ spring:
                 redis-rate-limiter.replenishRate: 10
                 redis-rate-limiter.burstCapacity: 20
         - id: PaymentService
-          uri: lb://PaymentService
+          uri: http://payment-service-svc
           predicates:
             - Path=/payment/**
           filters:
@@ -44,7 +52,7 @@ spring:
                 redis-rate-limiter.replenishRate: 10
                 redis-rate-limiter.burstCapacity: 20
         - id: OrderService
-          uri: lb://OrderService
+          uri: http://order-service-svc
           predicates:
             - Path=/order/**
           filters:
@@ -65,7 +73,8 @@ spring:
             scope: openid, profile, email, offline_access
             authorization-grant-type: authorization_code
             #redirect-uri: "{baseUrl}/login/oauth2/code/auth0"
-            redirect-uri: "${REDIRECT_URI:http://localhost:3000}/login/oauth2/code/auth0"
+            #redirect-uri: "${REDIRECT_URI:http://localhost:3000}/login/oauth2/code/auth0"
+            redirect-uri: "{baseUrl}/login/oauth2/code/auth0"
             client-id: 2WSuELXOTRX9N2IaLh0SyPW3x1SRjFap
             client-secret: qGaBjWRGHVQJAOWffvg8w-lsn5t4DLl3qdpK8gAWLttI2qnaiXXC11hdlLqEOkd0
         provider:

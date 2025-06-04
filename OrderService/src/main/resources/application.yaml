@@ -60,9 +60,7 @@ resilience4j:
         slidingWindowSize: 10
         slidingWindowType: COUNT_BASED
 
-
-
-
-
-
+microservice:
+  product: http://product-service-svc/product
+  payment: http://payment-service-svc/payment
 

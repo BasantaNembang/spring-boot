@@ -18,9 +18,9 @@ spring:
   config:
     import: configserver:http://localhost:9296/
 
-eureka:
-  client:
-    enabled: false
+#eureka:
+#  client:
+#    enabled: false
 
 
 

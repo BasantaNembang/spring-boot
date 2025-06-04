@@ -13,13 +13,16 @@ spec:
     spec:
       containers:
       - name: redis-app
-        image: redis:latest
-        ports:
-        - containerPort: 6379
-        command: ["redis-server"]
+      
+        image: redis:7.0.4
+        command:
+          - "redis-server"
         args:
           - "--protected-mode"
           - "no"
+        ports:
+        - containerPort: 6379
+
 
 
 ---

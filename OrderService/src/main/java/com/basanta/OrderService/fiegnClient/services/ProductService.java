@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-@FeignClient(name = "ProductService")
+@FeignClient(name = "product", url = "${microservice.product}")
 public interface ProductService {
 
-     @PutMapping("/product/reduce-product/{id}")
+     @PutMapping("/reduce-product/{id}")
      ResponseEntity<String> reduceProductByOrder(@PathVariable("id") String id,
                                                        @RequestParam int quantity);
 
 
-     @PutMapping("/product/add-product-quant/{id}")
+     @PutMapping("/add-product-quant/{id}")
      ResponseEntity<HttpStatus> addProductIfOrderCancel(@PathVariable("id") String id,
                                                               @RequestParam int quantity);
 

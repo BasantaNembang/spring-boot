@@ -1,5 +1,5 @@
 
----
+
 
 apiVersion: apps/v1
 kind: Deployment
@@ -28,11 +28,7 @@ spec:
                 name: config-cmap
                 key: config_server_uri
              
-          - name: EUREKA_SERVER_ADDRESS  
-            valueFrom:
-              configMapKeyRef:
-                name: eureka-cmap
-                key: eureka_server_address
+         
           
           - name: LOKI_URL
             valueFrom:
@@ -66,14 +62,14 @@ spec:
                 name: mysql-cmap
                 key: hostname               
       
-        readinessProbe:
-          httpGet:
-            path: /actuator/health
-            port: 8081
-          initialDelaySeconds: 200
-          periodSeconds: 5
-          failureThreshold: 3
-          successThreshold: 1    
+        # readinessProbe:
+        #   httpGet:
+        #     path: /actuator/health
+        #     port: 8081
+        #   initialDelaySeconds: 65
+        #   periodSeconds: 5
+        #   failureThreshold: 3
+        #   successThreshold: 1    
 
           
 ---

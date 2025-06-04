@@ -1,3 +1,5 @@
+
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,13 +28,9 @@ spec:
                 name: config-cmap
                 key: config_server_uri
                      
-          - name: EUREKA_SERVER_ADDRESS  
-            valueFrom:
-              configMapKeyRef:
-                name: eureka-cmap
-                key: eureka_server_address
-          
-          - name: HOST_DB
+         
+          #catch
+          - name: DB_HOST
             valueFrom:
               configMapKeyRef:
                 name: mysql-cmap
@@ -51,18 +49,14 @@ spec:
                 key: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
 
 
-        readinessProbe:
-          httpGet:
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 200
-          periodSeconds: 5
-          failureThreshold: 3
-          successThreshold: 1     
-
-
-
-
+        # readinessProbe:
+        #   httpGet:
+        #     path: /actuator/health
+        #     port: 8080
+        #   initialDelaySeconds: 65
+        #   periodSeconds: 5
+        #   failureThreshold: 3
+        #   successThreshold: 1     
 
 
 ---

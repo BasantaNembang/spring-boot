@@ -1,5 +1,5 @@
 
----
+
 
 apiVersion: apps/v1
 kind: Deployment
@@ -21,21 +21,21 @@ spec:
         ports:
         - containerPort: 9296
         
-        env:
-          - name: EUREKA_SERVER_ADDRESS    
-            valueFrom:
-              configMapKeyRef:
-                name: eureka-cmap
-                key: eureka_server_address
+        # env:
+        #   - name: EUREKA_SERVER_ADDRESS    
+        #     valueFrom:
+        #       configMapKeyRef:
+        #         name: eureka-cmap
+        #         key: eureka_server_address
         
-        readinessProbe:
-          httpGet:
-            path: /actuator/health
-            port: 9296
-          initialDelaySeconds: 200
-          periodSeconds: 5
-          failureThreshold: 3
-          successThreshold: 1   
+        # readinessProbe:
+        #   httpGet:
+        #     path: /actuator/health
+        #     port: 9296
+        #   initialDelaySeconds: 65
+        #   periodSeconds: 5
+        #   failureThreshold: 3
+        #   successThreshold: 1   
      
 
      
@@ -49,7 +49,9 @@ spec:
   selector:
     app: config-server-app
   ports:
-  - port: 80
+  - name: http
+    protocol: TCP
+    port: 80
     targetPort: 9296
 
 
