@@ -8,6 +8,7 @@ metadata:
 data:
   LOKI_URL: "http://loki.default.svc.cluster.local:3100/loki/api/v1/push"
   MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: "http://tempo.default.svc.cluster.local:9411"
-  SPRING_KAFKA_BOOTSTRAP-SERVERS: "broker.default.svc.cluster.local:29092"   
+  BOOTSTRAP_SERVER: broker-svc:29092  
+  #BOOTSTRAP_SERVER: "broker-svc.default.svc.cluster.local:29092"   
 
 

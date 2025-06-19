@@ -62,10 +62,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-actuator</artifactId>-->
-<!--		</dependency>-->
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
@@ -130,10 +127,7 @@
 			<version>1.0.1</version>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-aop</artifactId>-->
-<!--		</dependency>-->
+
 
 		<!-- https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock-jre8 -->
 		<dependency>
@@ -206,7 +200,37 @@
 	</dependencyManagement>
 
 	<build>
+		<sourceDirectory>src/main/java</sourceDirectory> <!--  Ensures only src/main/java is compiled -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+
 		<plugins>
+
+			<!--  Important: Ensures avro-generated classes are compiled -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated/avro</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -231,6 +255,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+<!--			generateClass-->
 			<plugin>
 				<groupId>org.apache.avro</groupId>
 				<artifactId>avro-maven-plugin</artifactId>
@@ -260,4 +285,4 @@
 		</plugins>
 	</build>
 
-</project>
+</project>        

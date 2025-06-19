@@ -4,7 +4,7 @@ spring:
     listener:
       concurrency: 2
       observation-enabled: true
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${BOOTSTRAP_SERVER:localhost:9092}
     consumer:
       group-id: notification-service
       key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
@@ -15,4 +15,4 @@ spring:
         spring.deserializer.value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
         specific.avro.reader: true
     properties:
-      schema.registry.url: http://localhost:8085
+      schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8085}
